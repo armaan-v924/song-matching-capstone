@@ -2,9 +2,22 @@
 
 def add_fingerprints(fingerprints, song_id, database):
     '''
-    params:song ID, database,fingerprints
-    return database
+    Adds a list of fingerprints into the fingerprint database
+    This database has keys: fingerprints and values: list of song ids
+
+    Returns the updated fingerprint database (database)
+
+    Parameters
+    -----------
+    song_id: id of a song
+    database: fingerprint database (dictionary)
+    fingerprints: numpy array containing all fingerprints for a certain song
+
+    Returns
+    --------
+    Updated fingerprint database including all of the fingerprints and song_id
     '''
+    
     for fingerprint in fingerprints:
         if fingerprint in database:
             database[fingerprint] = database[fingerprint].append(song_id)
