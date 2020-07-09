@@ -15,9 +15,9 @@ def add_fingerprints(fingerprints, song_id, database):
 
     Returns
     --------
-    Updated fingerprint database including all of the fingerprints and song_id
+    Updated fingerprint database including all of the new fingerprints and song_id
     '''
-    
+
     for fingerprint in fingerprints:
         if fingerprint in database:
             database[fingerprint] = database[fingerprint].append(song_id)
@@ -28,14 +28,23 @@ def add_fingerprints(fingerprints, song_id, database):
 
 def tally_fingerprints(pairings, database):
     '''
-    params: pairings, database
-    returns: tallies - dictionary key: song_id, values: tallies of each song_id
-    '''
+    Tallies all of the songs that contain each pairing in pairings (fingerprints)
 
+    Returns a dictionary that contains a list of songs and the number of tallies (key: song_id, value: tallies)
+
+    Parameters
+    -----------
+    pairings: a numpy array containing fingerprints
+    database: database of fingerprints (key: fingerprint, value: list of song_ids
+
+    Returns
+    --------
+    tallies - a dictionary that is keeping track of the tallies (key: song_ids, value: number of tallies)
+    '''
 
     tallies = {}
     for pairing in pairings:
-        song_ids = database[pairings]
+        song_ids = database[pairing]
         for song_id in song_ids:
             if song_id in tallies:
                 tallies[song_id] = tallies[song_id] + 1
@@ -43,4 +52,5 @@ def tally_fingerprints(pairings, database):
                 tallies[song_id] = 1
     return tallies
 
-def
+def find_song():
+    pass
