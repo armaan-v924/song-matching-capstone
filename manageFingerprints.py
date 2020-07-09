@@ -52,5 +52,21 @@ def tally_fingerprints(pairings, database):
                 tallies[song_id] = 1
     return tallies
 
-def find_song():
-    pass
+def find_song_id(tallies, threshold):
+    '''
+    finds the song_id with the max value of tallies and sees if that value is above the threshold
+
+    Returns song_id if there is a match, otherwise returns "No match found"
+
+    Parameters
+    -----------
+    tallies: dictionary with keys: song_id and values: number of tallies
+    threshold: a number to see if there are enough tallies to consider a match
+
+    Returns
+    --------
+    returns song_id if there is a match or "No match found"
+    '''
+
+    song_id = max(tallies, key=tallies.get)
+    return song_id if tallies[song_id] >= threshold else "No match found"
