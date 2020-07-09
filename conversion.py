@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from microphone import record_audio
 import librosa as lib
-import matplotlib as mlab
+import matplotlib.mlab as mlab
 import numpy as np
 from pathlib import Path
 
@@ -53,7 +53,7 @@ def mic_to_samples(duration: float):
     frames, rate = record_audio(duration)
 
     # Generate samples using numpy
-    samples = np.hstack([np.frombugger(i, np.int16) for i in frames])
+    samples = np.hstack([np.frombuffer(i, np.int16) for i in frames])
 
     # Generate spectrogram using matplotlib
     spectrogram, freqs, times = mlab.specgram(
