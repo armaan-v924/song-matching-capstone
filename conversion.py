@@ -21,7 +21,11 @@ def file_to_samples(song, sampling_rate=44100):
     rate: int; sampling rate
 
     """
+
+    # Collect samples & rate using librosa
     samples, rate = lib.load(song, sr=sampling_rate, mono=True)
+
+    # Generate spectrogram using matplotlib
     spectrogram, freqs, times = mlab.specgram(
         samples,
         NFFT=4096,
@@ -44,8 +48,14 @@ def mic_to_samples(duration: float):
     spectrogram: 2D numpy array; rows - freqs, columns - times, elements - Fourier coefficients
     rate: int; sampling rate
     """
+    
+    # Record audio using Microphone
     frames, rate = record_audio(duration)
+
+    # Generate samples using numpy
     samples = np.hstack([np.frombugger(i, np.int16) for i in frames])
+
+    # Generate spectrogram using matplotlib
     spectrogram, freqs, times = mlab.specgram(
         samples,
         NFFT=4096,
