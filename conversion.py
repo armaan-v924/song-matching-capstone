@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 def file_to_samples(song, sampling_rate=44100):
-    """Converts given song file to numpy array of samples
+    """Converts given song file to numpy array of Fourier coefficients
     
     Parameters:
     -----------
@@ -33,7 +33,7 @@ def file_to_samples(song, sampling_rate=44100):
     return spectrogram, rate
 
 def mic_to_samples(duration: float):
-    """Records audio sample
+    """Records audio sample & converts to numpy array of Fourier coefficients
 
     Parameters
     ----------
