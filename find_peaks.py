@@ -136,9 +136,9 @@ def create_fingerprints(peak_locations, fanout_value = 15):
     assert len(peak_locations) > fanout_value
     for i in range(len(peak_locations)):
         for n in range(i+1, i+fanout_value+1):
-            if n >= len(peaks):
+            if n >= len(peak_locations):
                 break
-            fingerprints.append((peaks[i][0], peaks[n][0], peaks[n][1]-peaks[i][1], peaks[i][1]))
+            fingerprints.append((peak_locations[i][0], peak_locations[n][0], peak_locations[n][1]-peak_locations[i][1], peak_locations[i][1]))
     # for i in range(len(peak_locations)):
     #     closest_points = find_closest(peak_locations, i, 4) #for testing, fanout_size is 4
     #     print("current point: ", peak_locations[i])
