@@ -19,7 +19,11 @@ file_name = seperate file
 import numpy as np
 import pickle 
 import uuid
-
+import matplotlib.pyplot as plt
+from microphone import record_audio
+import librosa as lib
+import matplotlib.mlab as mlab
+from pathlib import Path
 metadata = {}
 database = {}
 
