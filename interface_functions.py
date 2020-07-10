@@ -55,9 +55,7 @@ def meta_load(file_name):
     """Loads both complete databases from a specified file.
 
     Saves the two dictionary elements of the tuple from the specified file
-    as the metadata database dictionary and the song fingerprint database
-    dictionary.
-
+    as the global variables "metadata" and "database", respectively.
     Parameters
     ----------
     file_name : string, points to file from which the two databases will
@@ -68,15 +66,19 @@ def meta_load(file_name):
         metadata, database  = pickle.load(opened_file)
 
 def add_song(mp3_file_path):
-    """Loads an mp3 file into the function. 
+    """Processes and adds the song (mp3 file) into the database of songs
     
-    Collects the metadata from the file by creating samples out of the file. 
-    Then creates and add fingerprints to a dict(database) with its value as a generated song_id from uuid.
-    Adds the same song_id as the key and the song's data as a dictionary onto another dict(metadata)
+    Collects the digital audio data from the file by creating samples out 
+    of the file. Then creates and addd fingerprints to a dict(database) with
+    its value as a generated song_id from uuid. Prompts the user for data
+    about the song and adds the song_id as the key and the song's data as a 
+    dictionary onto another dict(metadata)
     
     Parameters
     ------------
-    ''' 
+    mp3_file_path : string, points to file for a song that will be processed
+                    and added to the database
+    """ 
     
     spectrogram, rate  = c.file_to_samples(mp3_file_path)
     fingerprints = fp.create_fingerprints(spectrogram, rate, len(spectrogram))
@@ -84,14 +86,42 @@ def add_song(mp3_file_path):
     database = mf.add_fingerprints(fingerprints, song_id, database)
     meda = sm.add_metadata()
     metadata.add(song_id, meda)
+
 def find_song(duration):
+    """Records audio for the specified duration and prints out the song that
+    the audio most closely matches
+    
+    Processes recorded audio and compares the processed data to a database of
+    song data. Prints out the name, artist, and genre of the song that most
+    closely matches the audio recording.
+    
+    Parameters
+    ------------
+    duration : int, duration of audio recording to match to a song in the
+               database
+
+    Notes
+    ------------
+    Uses the Fast Fourier Transform to process the recorded audio data, which
+    is then converted into a spectrogram to be used to find key fingerprints
+    in the recording. These fingerprints, and the times in which they occur
+    in the recording are compared to the existing database of songs and the 
+    best match is displayed for the user.
+    """ 
+
     #mic_to_samples -> fingerprint -> tally -> highest tally (find_song_id)
     spectrogram, rate = c.mic_to_samples(duration)
     fingerprints = fp.create_fingerprints(peak_locations, rate, len(spectrogram))
     tallies = mf.tally_fingerprints(fingerprints, database)
     song_id = mf.find_song_id(tallies, 0.05 ,metadata)
     print("You are currently listening to \"" + metadata[song_id][0] + "\" by " + metadata[song_id][1] + ". Genre: " + metadata[song_id][2])
+
 def print_song_database():
+    """Prints out a list of songs that are already in the database
+
+    Song data is printed out in the format "(title) by (artist). Genre: (genre)"
+    """ 
+
     print("List of Songs")
     print("------------------")
     for key in metadata:
