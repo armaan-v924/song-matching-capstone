@@ -17,10 +17,10 @@ def add_fingerprints(fingerprints, song_id, database):
     --------
     Updated fingerprint database including all of the new fingerprints and song_id
     '''
-
     for fingerprint in fingerprints:
         if fingerprint in database:
-            database[fingerprint] = database[fingerprint].append(song_id)
+            print(fingerprint)
+            database[fingerprint].append(song_id)
         else:
             database[fingerprint] = [song_id]
     return database
