@@ -68,13 +68,20 @@ def meta_load(file_name):
         metadata, database  = pickle.load(opened_file)
 
 def add_song(mp3_file_path):
-    # put mp3 into tuple, unpack it, then generates song_id .
+    """Loads an mp3 file into the function. 
+    
+    Collects the metadata from the file by creating samples out of the file. 
+    Then creates and add fingerprints to a dict(database) with its value as a generated song_id from uuid.
+    Adds the same song_id as the key and the song's data as a dictionary onto another dict(metadata)
+    
+    Parameters
+    ------------
+    ''' 
+    
     spectrogram, rate  = c.file_to_samples(mp3_file_path)
     fingerprints = fp.create_fingerprints(spectrogram, rate, len(spectrogram))
     song_id = uuid.uuid1()
-    #adds fingerprints and ids into 
     database = mf.add_fingerprints(fingerprints, song_id, database)
-    #add metadata = returns dictionary of values used. Then put it as a value of random song_id
     meda = sm.add_metadata()
     metadata.add(song_id, meda)
 def find_song(duration):
