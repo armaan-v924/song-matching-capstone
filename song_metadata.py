@@ -43,6 +43,8 @@ def add_metadata(fingerprints):
     if check_title.lower()=="y":
         title = input("Song title: ")
         data["title"] = title
+    else:
+        data["title"] = "Unknown"
       
     # ask user for artist name
     query_count = 0
@@ -59,6 +61,8 @@ def add_metadata(fingerprints):
     if check_artist.lower()=="y":
         artist = input("Artist: ")
         data["artist"] = artist
+    else:
+        data["artist"] = "Unknown"
 
     # ask user for song genre 
     query_count = 0
@@ -75,6 +79,8 @@ def add_metadata(fingerprints):
     if check_genre.lower()=="y":
         genre = input("Genre: ")
         data["genre"] = genre
+    else:
+        data["genre"] = "Unknown"
 
     return data
 

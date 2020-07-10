@@ -92,7 +92,7 @@ def add_song(mp3_file_path, file_path):
     song_id = uuid.uuid1()
     updated_database = mf.add_fingerprints(fingerprints, song_id, database)
     database = updated_database
-    meda = sm.add_metadata()
+    meda = sm.add_metadata(len(fingerprints))
     metadata[song_id] = meda
     meta_save(metadata,database,file_path)
 
@@ -135,7 +135,7 @@ def find_song(duration, mp3_file_path, file_path):
     if song_id == "No match found":
         print("No match found. Please try again.")
     else:
-        print("You are currently listening to \"" + metadata[song_id][0] + "\" by " + metadata[song_id][1] + ". Genre: " + metadata[song_id][2])
+        print("You are currently listening to \"" + sm.get_metadata(metadata, song_id, "title") + "\" by " + sm.get_metadata(metadata, song_id, "artist") + ". Genre: " + sm.get_metadata(metadata, song_id, "genre"))
 def print_song_database():
     """Prints out a list of songs that are already in the database
 
