@@ -19,6 +19,11 @@ file_name = seperate file
 import numpy as np
 import pickle 
 import uuid
+import matplotlib.pyplot as plt
+from microphone import record_audio
+import librosa as lib
+import matplotlib.mlab as mlab
+from pathlib import Path
 
 metadata = {}
 database = {}
@@ -43,3 +48,4 @@ def add_song(mp3_file_path):
     #add metadata = returns dictionary of values used. Then put it as a value of random song_id
     meda = add_metadata()
     metadata.add(song_id, meda)
+
