@@ -174,7 +174,7 @@ def create_fingerprints(peak_locations, sampling_rate, num_freqs):
     fingerprints = []
     for i in range(len(peak_locations)):
         closest_points = find_closest(peak_locations, i, 4) #for testing, fanout_size is 4
-        print("current point: ", peak_locations[i])
+        #print("current point: ", peak_locations[i])
         for pt in closest_points:
             #tuple (fi, fj, delta t)
             print("     comparing to: ", peak_locations[pt])
@@ -189,19 +189,19 @@ def create_fingerprints(peak_locations, sampling_rate, num_freqs):
 
 
 #for testing, data is a 6 x 6 array of randomly generated numbers
-data = np.floor(np.random.rand(6,10) * 30)
-sampling_rate = 44100
-num_freqs = len(data) #total num freqs (used to flip data vertically)
-print("data:\n", data)
-fp = generate_binary_structure(2, 1)
-threshold = np.percentile(data, 75) #75th percentile amplitude
-peaks = local_peak_locations(data, fp, threshold)
+#data = np.floor(np.random.rand(6,10) * 30)
+#sampling_rate = 44100
+#num_freqs = len(data) #total num freqs (used to flip data vertically)
+#print("data:\n", data)
+#fp = generate_binary_structure(2, 1)
+#threshold = np.percentile(data, 75) #75th percentile amplitude
+#peaks = local_peak_locations(data, fp, threshold)
 
-print("\npeaks: ", peaks, "\n")
+#print("\npeaks: ", peaks, "\n")
 
-fingerprints = create_fingerprints(peaks, sampling_rate, num_freqs)
+#fingerprints = create_fingerprints(peaks, sampling_rate, num_freqs)
 
-print("\nfingerprints: \n", fingerprints)
+#print("\nfingerprints: \n", fingerprints)
 
 
 # In[ ]:
