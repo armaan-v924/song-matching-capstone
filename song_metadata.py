@@ -1,10 +1,14 @@
-def add_metadata():
+def add_metadata(fingerprints):
     """Creates a dictionary of all user-inputted metadata
 
     Prompts the user to input known metadata (song title, artist, and 
     genre). Compiles the user-inputted information into a dictionary of 
     metadata and returns the dictionary.
     
+    Parameters
+    ----------
+    fingerprints : int, number of fingerprints associated with the song
+
     Returns
     -------
     dict
@@ -22,6 +26,7 @@ def add_metadata():
     
     """
     data = dict()
+    data["fingerprints"] = fingerprints
     
     # ask user for song title
     query_count = 0
@@ -95,6 +100,8 @@ def get_metadata(metadata, id, query=None):
     the string form of all metadata for the song, or an error that occured 
     when looking for the queried data
 
+    int : if the number of fingerprints is queried, an int will be returned
+
     """
     if id in metadata:
         all_data = metadata[id]
@@ -108,3 +115,27 @@ def get_metadata(metadata, id, query=None):
             return str(all_data)
     else:
         return "Error: the song was not found in this database"
+
+def get_fingerprints(metadata, id):
+    """Returns number of fingerprints associated with given song id
+
+    Parameters
+    ----------
+    metadata: full metadata dictionary to search through
+    id : int, pre-determined ID # that links song metadata to its fingerprints
+
+    Returns
+    -------
+    int : number of fingerprints associated with given song id, returns 0 if
+          the song ID was not found or if the song ID has no saved fingerprints
+          value
+
+    """
+    if id in metadata:
+        all_data = metadata[id]
+        if "fingerprints" in all_data:
+            return all_data["fingerprints"]
+        else:
+            return 0
+    else:
+        return 0
