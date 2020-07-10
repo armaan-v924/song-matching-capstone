@@ -85,10 +85,7 @@ def add_song(mp3_file_path, file_path):
     """ 
     metadata, database = meta_load(file_path)
     spectrogram, rate  = c.file_to_samples(mp3_file_path)
-    fpe = generate_binary_structure(2, 1)
-    threshold = np.percentile(spectrogram, 75) #75th percentile amplitude
-    peaks = fp.local_peak_locations(spectrogram, fpe, threshold)
-    fingerprints = fp.create_fingerprints(peaks, rate, len(spectrogram))
+    fingerprints = fp.create_fingerprints(spectrogram, rate, len(spectrogram))
     song_id = uuid.uuid1()
     updated_database = mf.add_fingerprints(fingerprints, song_id, database)
     database = updated_database
@@ -97,7 +94,7 @@ def add_song(mp3_file_path, file_path):
     meta_save(metadata,database,file_path)
 
 
-def find_song(duration, mp3_file_path, file_path):
+def find_song(duration, mp3_file_path):
     """Records audio for the specified duration and prints out the song that
     the audio most closely matches
     
@@ -120,7 +117,6 @@ def find_song(duration, mp3_file_path, file_path):
     in the recording are compared to the existing database of songs and the 
     best match is displayed for the user.
     """ 
-    metadata, database = meta_load(file_path)
     if mp3_file_path is not None:
         spectrogram, rate = c.file_to_samples(mp3_file_path)
     else:

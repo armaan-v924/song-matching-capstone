@@ -14,10 +14,10 @@ elif function == '2':
     method = input("1. Record a song sample\n2. Import an audio file\n")
     if method == '1':
         duration = input("How long is your song clip? ")
-        intFunc.find_song(int(duration), None, 'database.pickle')
+        intFunc.find_song(int(duration), None)
     elif method == '2':
         song_path = root / input("Please enter the relative path to the .mp3 file: ")
-        intFunc.find_song(0, song_path, 'database.pickle')
+        intFunc.find_song(0, song_path)
     else:
         print("Sorry something went wrong.")
 
