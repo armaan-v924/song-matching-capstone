@@ -28,6 +28,7 @@ import conversion as c
 import find_peaks as fp
 import manageFingerprints as mf
 import song_metadata as sm
+from scipy.ndimage.morphology import generate_binary_structure
 
 metadata = {}
 database = {}
@@ -111,7 +112,10 @@ def find_song(duration):
 
     #mic_to_samples -> fingerprint -> tally -> highest tally (find_song_id)
     spectrogram, rate = c.mic_to_samples(duration)
-    fingerprints = fp.create_fingerprints(spectrogram, rate, len(spectrogram))
+    fpe = generate_binary_structure(2, 1)
+    threshold = np.percentile(spectrogram, 75) #75th percentile amplitude
+    peaks = local_peak_locations(spectrogram, fpe, threshold)
+    fingerprints = fp.create_fingerprints(peaks, rate, len(spectrogram))
     tallies = mf.tally_fingerprints(fingerprints, database)
     song_id = mf.find_song_id(tallies, 0.05 ,metadata)
     if song_id == "No match found":
@@ -129,3 +133,7 @@ def print_song_database():
     for key in metadata:
         print("\"" + metadata[key][0] +"\" by "  + metadata[key][1] + ". Genre: " + metadata[key][2])
     print("------------------")
+
+    fp = generate_binary_structure(2, 1)
+threshold = np.percentile(data, 75) #75th percentile amplitude
+peaks = local_peak_locations(data, fp, threshold)
