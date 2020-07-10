@@ -19,8 +19,11 @@ def add_fingerprints(fingerprints, song_id, database):
     '''
     for fingerprint in fingerprints:
         if fingerprint in database:
-            print(fingerprint)
-            database[fingerprint].append(song_id)
+            list2 = database[fingerprint]
+            if list2 == None:
+                list2 = []
+            list2.append(song_id)
+            database[fingerprint] = list2
         else:
             database[fingerprint] = [song_id]
     return database
