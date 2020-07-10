@@ -159,12 +159,13 @@ def create_fingerprints(peak_locations, sampling_rate, num_freqs):
     for i in range(len(peak_locations)):
         closest_points = find_closest(peak_locations, i, 4)
         # print(closest_points)
-        fi, ti = peak_locations[i]
+        fi = peak_locations[0]
+        ti = peak_locations[1]
         for pt in closest_points:
-            fj, tj = pt
+            fj = pt[0]
+            tj = pt[1]
             fingerprint = (num_freqs - 1 - fi, num_freqs - 1 - fj, np.abs(ti - tj))
             fingerprints.append(fingerprint)
-
     # for i in range(len(peak_locations)):
     #     closest_points = find_closest(peak_locations, i, 4) #for testing, fanout_size is 4
     #     print("current point: ", peak_locations[i])
