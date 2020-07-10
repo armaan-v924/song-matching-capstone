@@ -36,7 +36,7 @@ def file_to_samples(song, sampling_rate=44100):
 
     return spectrogram, rate
 
-def mic_to_samples(duration: float):
+def mic_to_samples(duration):
     """Records audio sample & converts to numpy array of Fourier coefficients
 
     Parameters
