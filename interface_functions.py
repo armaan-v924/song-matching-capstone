@@ -88,7 +88,7 @@ def add_song(mp3_file_path, file_path):
     fpe = generate_binary_structure(2, 1)
     threshold = np.percentile(spectrogram, 75) #75th percentile amplitude
     peaks = fp.local_peak_locations(spectrogram, fpe, threshold)
-    fingerprints = fp.create_fingerprints(peaks, rate, len(spectrogram))
+    fingerprints = fp.create_fingerprints(peaks)
     song_id = uuid.uuid1()
     updated_database = mf.add_fingerprints(fingerprints, song_id, database)
     database = updated_database
@@ -129,7 +129,7 @@ def find_song(duration, mp3_file_path, file_path):
     fpe = generate_binary_structure(2, 1)
     threshold = np.percentile(spectrogram, 75) #75th percentile amplitude
     peaks = fp.local_peak_locations(spectrogram, fpe, threshold)
-    fingerprints = fp.create_fingerprints(peaks, rate, len(spectrogram))
+    fingerprints = fp.create_fingerprints(peaks)
     tallies = mf.tally_fingerprints(fingerprints, database)
     song_id = mf.find_song_id(tallies, 0.05 ,metadata)
     if song_id == "No match found":
