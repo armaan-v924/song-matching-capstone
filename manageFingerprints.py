@@ -47,12 +47,13 @@ def tally_fingerprints(pairings, database):
 
     tallies = {}
     for pairing in pairings:
-        song_ids = database[pairing]
-        for song_id in song_ids:
-            if song_id in tallies:
-                tallies[song_id] = tallies[song_id] + 1
-            else:
-                tallies[song_id] = 1
+        if pairing in database:
+            song_ids = database[pairing]
+            for song_id in song_ids:
+                if song_id in tallies:
+                    tallies[song_id] = tallies[song_id] + 1
+                else:
+                    tallies[song_id] = 1
     return tallies
 
 def add_song_fingerprints(database, fingerprints, song_id):
