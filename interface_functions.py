@@ -32,27 +32,86 @@ import song_metadata as sm
 metadata = {}
 database = {}
 def meta_save(metadata, database, file_name):
-    #saves the metadata onto a seperate file
+    """Saves both complete databases onto a specified file.
+
+    Generates a tuple, for which the first element is the metadata database
+    and the second element is the song fingerprint database. Saves the tuple
+    to a file specified by file_name. 
+
+    Parameters
+    ----------
+    metadata : dict, stores song ID #'s as keys and known song
+               metadata as values
+    database : dict, stores song fingerprints as keys and songs that
+               have those fingerprints as values
+    file_name : string, points to file in which the two databases will
+                be saved
+    """
+
     with open(file_name, mode ="wb") as opened_file:
         pickle.dump((metadata, database), opened_file)
+
 def meta_load(file_name):
-    #loads the tuple into two seperate variables based on metadata and database.
+    """Loads both complete databases from a specified file.
+
+    Saves the two dictionary elements of the tuple from the specified file
+    as the global variables "metadata" and "database", respectively.
+    Parameters
+    ----------
+    file_name : string, points to file from which the two databases will
+                be saved
+    """
+
     with open(file_name, mode="rb") as opened_file:
         metadata, database  = pickle.load(opened_file)
+
 def add_song(mp3_file_path):
-    # put mp3 into tuple, unpack it, then generates song_id .
+    """Processes and adds the song (mp3 file) into the database of songs
+    
+    Collects the digital audio data from the file by creating samples out 
+    of the file. Then creates and addd fingerprints to a dict(database) with
+    its value as a generated song_id from uuid. Prompts the user for data
+    about the song and adds the song_id as the key and the song's data as a 
+    dictionary onto another dict(metadata)
+    
+    Parameters
+    ------------
+    mp3_file_path : string, points to file for a song that will be processed
+                    and added to the database
+    """ 
+    
     spectrogram, rate  = c.file_to_samples(mp3_file_path)
     fingerprints = fp.create_fingerprints(spectrogram, rate, len(spectrogram))
     song_id = uuid.uuid1()
-    #adds fingerprints and ids into 
     database = mf.add_fingerprints(fingerprints, song_id, database)
-    #add metadata = returns dictionary of values used. Then put it as a value of random song_id
     meda = sm.add_metadata()
     metadata.add(song_id, meda)
+
 def find_song(duration):
+    """Records audio for the specified duration and prints out the song that
+    the audio most closely matches
+    
+    Processes recorded audio and compares the processed data to a database of
+    song data. Prints out the name, artist, and genre of the song that most
+    closely matches the audio recording.
+    
+    Parameters
+    ------------
+    duration : int, duration of audio recording to match to a song in the
+               database
+
+    Notes
+    ------------
+    Uses the Fast Fourier Transform to process the recorded audio data, which
+    is then converted into a spectrogram to be used to find key fingerprints
+    in the recording. These fingerprints, and the times in which they occur
+    in the recording are compared to the existing database of songs and the 
+    best match is displayed for the user.
+    """ 
+
     #mic_to_samples -> fingerprint -> tally -> highest tally (find_song_id)
     spectrogram, rate = c.mic_to_samples(duration)
-    fingerprints = fp.create_fingerprints(peak_locations, rate, len(spectrogram)):
+    fingerprints = fp.create_fingerprints(peak_locations, rate, len(spectrogram))
     tallies = mf.tally_fingerprints(fingerprints, database)
     song_id = mf.find_song_id(tallies, 0.05 ,metadata)
     if song_id = "No match found":
@@ -60,6 +119,11 @@ def find_song(duration):
     else:
         print("You are currently listening to \"" + metadata[song_id][0] + "\" by " + metadata[song_id][1] + ". Genre: " + metadata[song_id][2])
 def print_song_database():
+    """Prints out a list of songs that are already in the database
+
+    Song data is printed out in the format "(title) by (artist). Genre: (genre)"
+    """ 
+
     print("List of Songs")
     print("------------------")
     for key in metadata:
