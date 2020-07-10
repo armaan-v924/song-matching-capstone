@@ -93,6 +93,7 @@ def add_song(mp3_file_path, file_path):
     metadata[song_id] = meda
     meta_save(metadata,database,file_path)
 
+
 def find_song(duration, mp3_file_path):
     """Records audio for the specified duration and prints out the song that
     the audio most closely matches
@@ -142,3 +143,4 @@ def print_song_database():
     for key in metadata:
         print("\"" + metadata[key][0] +"\" by "  + metadata[key][1] + ". Genre: " + metadata[key][2])
     print("------------------")
+
