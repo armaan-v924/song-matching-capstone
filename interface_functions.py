@@ -56,7 +56,7 @@ def find_song(recording):
     fingerprints = fp.create_fingerprints(peak_locations, rate, len(spectrogram)):
     tallies = mf.tally_fingerprints(fingerprints, database)
     song_id = mf.find_song_id(tallies, 0.05 ,metadata)
-    print("You are currently listening to \"" + metadata[song_id][0] + "\" by " + metadata[song_id][1] + ". Genre: " + metadata[song_id][2]
+    print("You are currently listening to \"" + metadata[song_id][0] + "\" by " + metadata[song_id][1] + ". Genre: " + metadata[song_id][2])
 def print_song_database():
     print("List of Songs")
     print("------------------")
