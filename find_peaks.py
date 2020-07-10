@@ -159,8 +159,8 @@ def create_fingerprints(peak_locations, sampling_rate, num_freqs):
     for i in range(len(peak_locations)):
         closest_points = find_closest(peak_locations, i, 4)
         # print(closest_points)
-        fi = peak_locations[0]
-        ti = peak_locations[1]
+        fi = peak_locations[i][0]
+        ti = peak_locations[i][1]
         for pt in closest_points:
             fj = pt[0]
             tj = pt[1]
