@@ -65,6 +65,7 @@ def meta_load(file_name):
 
     with open(file_name, mode="rb") as opened_file:
         metadata, database  = pickle.load(opened_file)
+    return metadata,database
 
 def add_song(mp3_file_path, file_path):
     """Processes and adds the song (mp3 file) into the database of songs
