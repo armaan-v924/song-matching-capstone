@@ -133,7 +133,3 @@ def print_song_database():
     for key in metadata:
         print("\"" + metadata[key][0] +"\" by "  + metadata[key][1] + ". Genre: " + metadata[key][2])
     print("------------------")
-
-    fp = generate_binary_structure(2, 1)
-threshold = np.percentile(data, 75) #75th percentile amplitude
-peaks = local_peak_locations(data, fp, threshold)
