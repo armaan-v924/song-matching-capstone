@@ -9,6 +9,7 @@
 from numba import njit
 import numpy as np
 from scipy.ndimage.morphology import generate_binary_structure
+from scipy.spatial.distance import cdist
 
 @njit
 def _peaks(data_2d, rows, cols, amp_min):
@@ -107,24 +108,6 @@ def local_peak_locations(data_2d, neighborhood, amp_min):
 
 # ### Finding the fingerprints of the peaks
 
-# In[3]:
-
-
-def compute_distance(point1, point2):
-    """
-    Computes distance between 2 points
-    
-    Parameters
-    ----------
-    point 1, point 2 : tuples (t, freq)
-        
-    Returns
-    -------
-    float: Distance between 2 points on the graph 
-    """
-    return np.sqrt(np.abs((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2))
-
-
 # In[4]:
 
 
@@ -146,11 +129,12 @@ def find_closest(peak_locations, index, fanout_size):
     list
         indexes of the fanout_size closest neighbors in peak_locations
     """
-    dists = []
-    for i in range(len(peak_locations)):
-        dists.append(compute_distance(peak_locations[index], peak_locations[i]))
-    dists = np.argsort(dists)
-    return dists[1:fanout_size + 1]
+    return peak_locations[index+1:index+fanout_size+1]
+
+    # for i in range(len(peak_locations)):
+    #     dists.append(compute_distance(peak_locations[index], peak_locations[i]))
+    # dists = np.argsort(dists)
+    # return dists[:,1:fanout_size + 1]
 
 
 # In[46]:
@@ -173,13 +157,22 @@ def create_fingerprints(peak_locations, sampling_rate, num_freqs):
     """
     fingerprints = []
     for i in range(len(peak_locations)):
-        closest_points = find_closest(peak_locations, i, 4) #for testing, fanout_size is 4
-        #print("current point: ", peak_locations[i])
+        closest_points = find_closest(peak_locations, i, 4)
+        # print(closest_points)
+        fi, ti = peak_locations[i]
         for pt in closest_points:
-            #tuple (fi, fj, delta t)
-            #print("     comparing to: ", peak_locations[pt])
-            fingerprint = (num_freqs - 1 - peak_locations[i][0], num_freqs - 1 - peak_locations[pt][0], np.abs(peak_locations[i][1] - peak_locations[pt][1]))
+            fj, tj = pt
+            fingerprint = (num_freqs - 1 - fi, num_freqs - 1 - fj, np.abs(ti - tj))
             fingerprints.append(fingerprint)
+
+    # for i in range(len(peak_locations)):
+    #     closest_points = find_closest(peak_locations, i, 4) #for testing, fanout_size is 4
+    #     print("current point: ", peak_locations[i])
+    #     for pt in closest_points:
+    #         #tuple (fi, fj, delta t)
+    #         #print("     comparing to: ", peak_locations[pt])
+    #         fingerprint = (num_freqs - 1 - peak_locations[i][0], num_freqs - 1 - peak_locations[pt][0], np.abs(peak_locations[i][1] - peak_locations[pt][1]))
+    #         fingerprints.append(fingerprint)
     return fingerprints
 
 
