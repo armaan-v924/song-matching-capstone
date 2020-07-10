@@ -47,6 +47,7 @@ def tally_fingerprints(pairings, database):
 
     tallies = {}
     for pairing in pairings:
+        print(pairing)
         if pairing in database:
             song_ids = database[pairing]
             for song_id in song_ids:
