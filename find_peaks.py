@@ -177,7 +177,7 @@ def create_fingerprints(peak_locations, sampling_rate, num_freqs):
         #print("current point: ", peak_locations[i])
         for pt in closest_points:
             #tuple (fi, fj, delta t)
-            print("     comparing to: ", peak_locations[pt])
+            #print("     comparing to: ", peak_locations[pt])
             fingerprint = (num_freqs - 1 - peak_locations[i][0], num_freqs - 1 - peak_locations[pt][0], np.abs(peak_locations[i][1] - peak_locations[pt][1]))
             fingerprints.append(fingerprint)
     return fingerprints

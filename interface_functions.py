@@ -91,7 +91,7 @@ def add_song(mp3_file_path, file_path):
     database = updated_database
     meda = sm.add_metadata()
     metadata[song_id] = meda
-    meta_save(metadata,database,file_name)
+    meta_save(metadata,database,file_path)
 
 
 def find_song(duration):
