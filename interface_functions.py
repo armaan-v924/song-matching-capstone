@@ -1,108 +1,45 @@
-{
- "cells": [
-  {
-   "cell_type": "code",
-   "execution_count": 2,
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "\"\"\"Interface Database Functions\n",
-    "saving and loading the database\n",
-    "\n",
-    "inspecting the list of songs (and perhaps artists) that exist in the database\n",
-    "\n",
-    "providing the ability to switch databases (optional)\n",
-    "\n",
-    "deleting a song from a database (optional)\n",
-    "\n",
-    "guarding against the adding the same song to the database multiple times (optional)\n",
-    "\n",
-    "Parameters\n",
-    "---------------\n",
-    "metadata = a dictionary with {song ID: [Title: song_title, Name: song_name, Genre : genre_name] }\n",
-    "database = a dictionary with parameter fingerprints (key): list of song IDs\n",
-    "matchdatabase = a dictionary with {song ID: fingerprints}\n",
-    "file_name = seperate file\n",
-    "\"\"\"\n",
-    "import numpy as np\n",
-    "import pickle \n",
-    "import uuid\n",
-    "\n",
-    "metadata = {}\n",
-    "database = {}\n",
-    "\n",
-    "def meta_save(metadata, database, file_name):\n",
-    "    #saves the metadata onto a seperate file\n",
-    "    with open(file_name, mode =\"wb\") as opened_file:\n",
-    "        pickle.dump((metadata, database), opened_file)\n",
-    "def meta_load(file_name):\n",
-    "    #loads the tuple into two seperate variables based on metadata and database.\n",
-    "    with open(file_name, mode=\"rb\") as opened_file:\n",
-    "        metadata, database  = pickle.load(opened_file)\n",
-    "def add_song(mp3_file_path):\n",
-    "    # put mp3 into tuple, unpack it, then generates song_id .\n",
-    "    spectrogram, rate  = file_to_samples(mp3_file_path)\n",
-    "    fingerprints = 9\n",
-    "    song_id = uuid.uuid1()\n",
-    "    #adds fingerprints and ids into \n",
-    "    database = add_fingerprints(fingerprints, song_id, database)\n",
-    "    tallies = tally_fingerprints(fingerprints, database)\n",
-    "    song_id = find_song_id(tallies, 77)\n",
-    "    #add metadata = returns dictionary of values used. Then put it as a value of random song_id\n",
-    "    meda = add_metadata()\n",
-    "    metadata.add(song_id, meda)\n",
-    "\n",
-    "\n",
-    "    \n",
-    "    "
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 3,
-   "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "{1: ('Golden', 'Harry Styles'), 2: ('Switch!', 'NyxtheShield'), 3: ('West Side Story: Cool', 'Tucker Smith, West Side Story Orchestra, Johnny Green')}\n",
-      "{0: [1, 2, 3]}\n"
-     ]
-    }
-   ],
-   "source": [
-    "#testing area.\n",
-    "metadata = {1:(\"Golden\", \"Harry Styles\"), 2:(\"Switch!\",\"NyxtheShield\"), 3:(\"West Side Story: Cool\",\"Tucker Smith, West Side Story Orchestra, Johnny Green\")}\n",
-    "fingerprints = np.arange(24)\n",
-    "database = {fingerprints[0]:[1,2,3]}\n",
-    "\n",
-    "meta_save(metadata,database,\"testing.py\")\n",
-    "meta_load(\"testing.py\")\n",
-    "print(metadata)\n",
-    "print(database)"
-   ]
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.7.4"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 2
-}
+"""Interface Database Functions
+saving and loading the database
+
+inspecting the list of songs (and perhaps artists) that exist in the database
+
+providing the ability to switch databases (optional)
+
+deleting a song from a database (optional)
+
+guarding against the adding the same song to the database multiple times (optional)
+
+Parameters
+---------------
+metadata = a dictionary with {song ID: [Title: song_title, Name: song_name, Genre : genre_name] }
+database = a dictionary with parameter fingerprints (key): list of song IDs
+matchdatabase = a dictionary with {song ID: fingerprints}
+file_name = seperate file
+"""
+import numpy as np
+import pickle 
+import uuid
+
+metadata = {}
+database = {}
+
+def meta_save(metadata, database, file_name):
+    #saves the metadata onto a seperate file
+    with open(file_name, mode ="wb") as opened_file:
+        pickle.dump((metadata, database), opened_file)
+def meta_load(file_name):
+    #loads the tuple into two seperate variables based on metadata and database.
+    with open(file_name, mode="rb") as opened_file:
+        metadata, database  = pickle.load(opened_file)
+def add_song(mp3_file_path):
+    # put mp3 into tuple, unpack it, then generates song_id .
+    spectrogram, rate  = file_to_samples(mp3_file_path)
+    fingerprints = 9
+    song_id = uuid.uuid1()
+    #adds fingerprints and ids into 
+    database = add_fingerprints(fingerprints, song_id, database)
+    tallies = tally_fingerprints(fingerprints, database)
+    song_id = find_song_id(tallies, 77)
+    #add metadata = returns dictionary of values used. Then put it as a value of random song_id
+    meda = add_metadata()
+    metadata.add(song_id, meda)
