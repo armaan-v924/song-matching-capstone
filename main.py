@@ -9,6 +9,6 @@ if function == 1:
     intFunc.add_song(song_path.encode('unicode_escape'))
 elif function == 2:
     duration = input("How long is your song clip?: ")
-    find_song(duration)
+    intFunc.find_song(duration)
 else:
     print("Sorry something went wrong.")
