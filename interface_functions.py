@@ -66,7 +66,7 @@ def meta_load(file_name):
     with open(file_name, mode="rb") as opened_file:
         metadata, database  = pickle.load(opened_file)
 
-def add_song(mp3_file_path):
+def add_song(mp3_file_path, file_path):
     """Processes and adds the song (mp3 file) into the database of songs
     
     Collects the digital audio data from the file by creating samples out 
@@ -80,13 +80,15 @@ def add_song(mp3_file_path):
     mp3_file_path : string, points to file for a song that will be processed
                     and added to the database
     """ 
-    
+    metadata, database = meta_load(file_path)
     spectrogram, rate  = c.file_to_samples(mp3_file_path)
     fingerprints = fp.create_fingerprints(spectrogram, rate, len(spectrogram))
     song_id = uuid.uuid1()
-    database = mf.add_fingerprints(fingerprints, song_id, database)
+    updated_database = mf.add_fingerprints(fingerprints, song_id, database)
+    database = updated_database
     meda = sm.add_metadata()
     metadata.add(song_id, meda)
+    meta_save(metadata,database,file_name)
 
 def find_song(duration):
     """Records audio for the specified duration and prints out the song that
