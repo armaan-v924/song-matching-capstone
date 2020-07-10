@@ -254,3 +254,10 @@ dmypy.json
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
+
+# Armaan's Song Directory
+Music/*
+songdirectory/*
+
+# Database Updates
+database.pickle
