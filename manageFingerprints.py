@@ -1,4 +1,4 @@
-# database: keys: pairing/fingerprint value: list of song ids
+import song_metadata as sm
 
 def add_fingerprints(fingerprints, song_id, database):
     '''
@@ -89,4 +89,4 @@ def find_song_id(tallies, threshold,database):
     '''
 
     song_id = max(tallies, key=tallies.get)
-    return song_id if tallies[song_id] / len(database[song_id]["fingerprints"]) >= threshold else "No match found"
+    return song_id if tallies[song_id] / sm.get_fingerprints(database,song_id) >= threshold else "No match found"
