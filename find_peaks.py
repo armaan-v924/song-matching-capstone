@@ -111,36 +111,13 @@ def local_peak_locations(data_2d, neighborhood, amp_min):
 # In[4]:
 
 
-def find_closest(peak_locations, index, fanout_size):
-    """
-    Returns a list of the (number) closest points
-    
-    Parameters
-    ----------
-    peak_locations: list
-        Locations of peaks in the format [(x1,y1), (x2, y2), ...]
-    index: integer
-        index of current maximum location
-    fanout_size: integer
-        number of neighbors to look at  
-        
-    Returns
-    -------
-    list
-        indexes of the fanout_size closest neighbors in peak_locations
-    """
-    return peak_locations[index+1:index+fanout_size+1]
 
-    # for i in range(len(peak_locations)):
-    #     dists.append(compute_distance(peak_locations[index], peak_locations[i]))
-    # dists = np.argsort(dists)
-    # return dists[:,1:fanout_size + 1]
 
 
 # In[46]:
 
 
-def create_fingerprints(peak_locations, sampling_rate, num_freqs):
+def create_fingerprints(peak_locations, fanout_value = 15):
     """
     Returns a list of the (number) closest points
     
@@ -156,16 +133,12 @@ def create_fingerprints(peak_locations, sampling_rate, num_freqs):
         In the format: [(f1, f2, delta t), ...]
     """
     fingerprints = []
+    assert len(peak_locations) > fanout_value
     for i in range(len(peak_locations)):
-        closest_points = find_closest(peak_locations, i, 4)
-        # print(closest_points)
-        fi = peak_locations[i][0]
-        ti = peak_locations[i][1]
-        for pt in closest_points:
-            fj = pt[0]
-            tj = pt[1]
-            fingerprint = (num_freqs - 1 - fi, num_freqs - 1 - fj, np.abs(ti - tj))
-            fingerprints.append(fingerprint)
+        for n in range(i+1, i+fanout_value+1):
+            if n >= len(peaks):
+                break
+            fingerprints.append((peaks[i][0], peaks[n][0], peaks[n][1]-peaks[i][1], peaks[i][1]))
     # for i in range(len(peak_locations)):
     #     closest_points = find_closest(peak_locations, i, 4) #for testing, fanout_size is 4
     #     print("current point: ", peak_locations[i])
