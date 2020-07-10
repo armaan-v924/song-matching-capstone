@@ -111,7 +111,7 @@ def find_song(duration):
 
     #mic_to_samples -> fingerprint -> tally -> highest tally (find_song_id)
     spectrogram, rate = c.mic_to_samples(duration)
-    fingerprints = fp.create_fingerprints(peak_locations, rate, len(spectrogram))
+    fingerprints = fp.create_fingerprints(spectrogram, rate, len(spectrogram))
     tallies = mf.tally_fingerprints(fingerprints, database)
     song_id = mf.find_song_id(tallies, 0.05 ,metadata)
     if song_id == "No match found":
