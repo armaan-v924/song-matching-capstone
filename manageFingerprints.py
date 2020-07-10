@@ -52,7 +52,26 @@ def tally_fingerprints(pairings, database):
                 tallies[song_id] = 1
     return tallies
 
-def find_song_id(tallies, threshold):
+def add_song_fingerprints(database, fingerprints, song_id):
+    '''
+    Keeps track of all the fingerprints in a song
+    
+    Returns a database with keys: song_id and values: numpy array of fingerprints
+    
+    Parameters
+    -----------
+    database: database with keys: song_id and values: numpy array of fingerprints
+    fingerprints: numpy array of fingerprints for a song
+    song_id: id of a certain song
+    
+    Returns
+    --------
+    database containing the updated fingerprints and song_id
+    '''
+    database[song_id] = fingerprints
+    return database
+
+def find_song_id(tallies, threshold,database):
     '''
     finds the song_id with the max value of tallies and sees if that value is above the threshold
 
@@ -61,7 +80,8 @@ def find_song_id(tallies, threshold):
     Parameters
     -----------
     tallies: dictionary with keys: song_id and values: number of tallies
-    threshold: a number to see if there are enough tallies to consider a match
+    threshold: a percentage to see if there are enough tallies to consider a match
+    database: database with key: song_id and value: numpy array of fingerprints
 
     Returns
     --------
@@ -69,4 +89,4 @@ def find_song_id(tallies, threshold):
     '''
 
     song_id = max(tallies, key=tallies.get)
-    return song_id if tallies[song_id] >= threshold else "No match found"
+    return song_id if tallies[song_id] / len(database[song_id]) >= threshold else "No match found"
