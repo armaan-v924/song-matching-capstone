@@ -131,7 +131,7 @@ def find_song(duration, mp3_file_path, file_path):
     peaks = fp.local_peak_locations(spectrogram, fpe, threshold)
     fingerprints = fp.create_fingerprints(peaks)
     tallies = mf.tally_fingerprints(fingerprints, database)
-    song_id = mf.find_song_id(tallies, 0.05 ,metadata)
+    song_id = mf.find_song_id(tallies, 0.05 ,len(fingerprints))
     if song_id == "No match found":
         print("No match found. Please try again.")
     else:
