@@ -47,3 +47,9 @@ def add_song(mp3_file_path):
     #add metadata = returns dictionary of values used. Then put it as a value of random song_id
     meda = add_metadata()
     metadata.add(song_id, meda)
+def print_song_database():
+    print("List of Songs")
+    print("------------------")
+    for key in metadata:
+        print("\"" + metadata[key][0] +"\" by \"" + metadata[key][1] + "\". Genre: " + metadata[key][2])
+    print("------------------")
