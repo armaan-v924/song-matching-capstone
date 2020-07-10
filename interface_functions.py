@@ -79,6 +79,8 @@ def add_song(mp3_file_path, file_path):
     ------------
     mp3_file_path : string, points to file for a song that will be processed
                     and added to the database
+    file_path : file, consists of tuple(metadata, database) that will be updated 
+    as songs and fingerprints are added into both dictionaries.
     """ 
     metadata, database = meta_load(file_path)
     spectrogram, rate  = c.file_to_samples(mp3_file_path)
@@ -87,7 +89,7 @@ def add_song(mp3_file_path, file_path):
     updated_database = mf.add_fingerprints(fingerprints, song_id, database)
     database = updated_database
     meda = sm.add_metadata()
-    metadata.add(song_id, meda)
+    metadata[song_id] = meda
     meta_save(metadata,database,file_name)
 
 def find_song(duration):
