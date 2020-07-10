@@ -114,7 +114,7 @@ def find_song(duration):
     fingerprints = fp.create_fingerprints(peak_locations, rate, len(spectrogram))
     tallies = mf.tally_fingerprints(fingerprints, database)
     song_id = mf.find_song_id(tallies, 0.05 ,metadata)
-    if song_id = "No match found":
+    if song_id == "No match found":
         print("No match found. Please try again.")
     else:
         print("You are currently listening to \"" + metadata[song_id][0] + "\" by " + metadata[song_id][1] + ". Genre: " + metadata[song_id][2])
