@@ -28,13 +28,41 @@ metadata = {}
 database = {}
 
 def meta_save(metadata, database, file_name):
-    #saves the metadata onto a seperate file
+    """Saves both complete databases onto a specified file.
+
+    Generates a tuple, for which the first element is the metadata database
+    and the second element is the song fingerprint database. Saves the tuple
+    to a file specified by file_name. 
+
+    Parameters
+    ----------
+    metadata : dict, stores song ID #'s as keys and known song
+               metadata as values
+    database : dict, stores song fingerprints as keys and songs that
+               have those fingerprints as values
+    file_name : string, points to file in which the two databases will
+                be saved
+    """
+
     with open(file_name, mode ="wb") as opened_file:
         pickle.dump((metadata, database), opened_file)
+
 def meta_load(file_name):
-    #loads the tuple into two seperate variables based on metadata and database.
+    """Loads both complete databases from a specified file.
+
+    Saves the two dictionary elements of the tuple from the specified file
+    as the metadata database dictionary and the song fingerprint database
+    dictionary.
+
+    Parameters
+    ----------
+    file_name : string, points to file from which the two databases will
+                be saved
+    """
+
     with open(file_name, mode="rb") as opened_file:
         metadata, database  = pickle.load(opened_file)
+
 def add_song(mp3_file_path):
     # put mp3 into tuple, unpack it, then generates song_id .
     spectrogram, rate  = file_to_samples(mp3_file_path)
@@ -47,6 +75,7 @@ def add_song(mp3_file_path):
     #add metadata = returns dictionary of values used. Then put it as a value of random song_id
     meda = add_metadata()
     metadata.add(song_id, meda)
+
 def print_song_database():
     print("List of Songs")
     print("------------------")
